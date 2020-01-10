@@ -43,8 +43,10 @@ class AboutUsScreen extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.contentIs.success) {
-      this.setState({data: nextProps.contentIs.response[0].content});
+    console.log({nextProps})
+    if (nextProps.contentIs.status) {
+      this.setState({data: nextProps.contentIs.data.content});
+      console.log(this.state)
     }
   }
 

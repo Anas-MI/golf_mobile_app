@@ -110,7 +110,8 @@ class LoginScreen extends React.Component {
   //component will recieve props where we get response from redux and api
   componentWillReceiveProps(nextProps) {
     this.setState({isLoading: false});
-    console.log({nextProps})
+    console.log({"aaaaaaaaaa":nextProps})
+    console.log(nextProps.user.id)
     if (nextProps.user.auth) {
       AsyncStorage.setItem(
         constants.ACCESSTOKEN_NAME,
@@ -127,6 +128,10 @@ class LoginScreen extends React.Component {
       AsyncStorage.setItem(
         constants.USER_CREATED_AT,
         nextProps.user.created_at,
+      );
+      AsyncStorage.setItem(
+        constants.USER_ID,
+        nextProps.user.id
       );
       const resetAction = StackActions.reset({
         index: 0,

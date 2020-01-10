@@ -17,7 +17,7 @@ import { submit } from '../../actions/submitTest';
 import { addFavorite } from '../../actions/addFavorite';
 import _ from 'lodash';
 
-var dateIs,dayIs,accessToken;
+var dateIs,dayIs,accessToken, userid;
 var favArray = [];
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -51,10 +51,16 @@ class PreviousTaskScreen extends React.Component{
   componentWillMount = () => {
   //getting access tokek from async storage
     AsyncStorage.getItem(constants.ACCESSTOKEN_NAME).then((value) => {
+      AsyncStorage.getItem(constants.USER_ID).then(id => {
+        
+        console.log({"iddddd": id, value})
+        userid = id})
         accessToken = value;
+        
         const data = {
           date: this.props.navigation.state.params.day.dateString,
           accessToken: value,
+          
         }
         console.log("mydatestringis this",this.props.navigation.state.params.day.dateString);
         this.props.dateContent(data);
@@ -153,9 +159,11 @@ class PreviousTaskScreen extends React.Component{
 
   // heart pressed or unpressed
     favoritePress = (state) => {
+      console.log(id)
       const data = {
         date: this.props.navigation.state.params.day.dateString,
         accessToken: accessToken,
+        user:userid,
         id: this.state.synergistic_id,
         name: this.state.name,
         goal: this.state.goal,
@@ -164,6 +172,7 @@ class PreviousTaskScreen extends React.Component{
     }
 
   render() {
+    console.log(this.props)
     let abc =  'favorite-border';
     const { journal, formData, loader } = this.state;
     favArray = this.props.favouritesResponse.favoriteDates;

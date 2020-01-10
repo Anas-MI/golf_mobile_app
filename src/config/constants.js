@@ -19,6 +19,7 @@ export default {
   // API_BASE_URL: 'http://18.217.138.86/api/',
   API_BASE_URL: 'http://localhost:4000/api/v1/',
   ACCESSTOKEN_NAME: 'name of the token',
+  USER_ID:"user id of the user",
   USER_CREATED_AT: 'user created at',
   ARRAY_FAVORITE: 'name of the favourite array',
   EMAIL_NOTIFICATIONS: 'email notifications name',
