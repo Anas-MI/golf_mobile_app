@@ -5,16 +5,17 @@ export function dateContent(data) {
   return dispatch =>
     fetch(
       Constants.API_BASE_URL +
-        'synergistic?date=' +
-        data.date +
-        '&accessToken=' +
-        data.accessToken,
+        "synergistic/get/synergy",
       {
-        method: 'GET',
+        method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          dateToFind: data.date,
+          date: data.date
+        }),
       },
     )
       .then(response => response.json())
