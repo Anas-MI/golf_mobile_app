@@ -22,6 +22,7 @@ import CustomButton from '../../components/CustomButton';
 import Spinner from 'react-native-spinkit';
 import {NavigationActions, StackActions} from 'react-navigation';
 import firebase from 'react-native-firebase';
+import {Platform} from 'react-native';
 
 var fcmToken;
 
@@ -49,7 +50,10 @@ class LoginScreen extends React.Component {
       .messaging()
       .getToken()
       .then(token => {
+        
         fcmToken = token;
+      console.log({fcmToken})
+      console.log(Platform.OS)
       });
   }
 
@@ -106,22 +110,23 @@ class LoginScreen extends React.Component {
   //component will recieve props where we get response from redux and api
   componentWillReceiveProps(nextProps) {
     this.setState({isLoading: false});
-    if (nextProps.user.success) {
+    console.log({nextProps})
+    if (nextProps.user.auth) {
       AsyncStorage.setItem(
         constants.ACCESSTOKEN_NAME,
-        nextProps.user.response.access_token,
+        nextProps.user.token,
       );
       AsyncStorage.setItem(
         constants.EMAIL_NOTIFICATIONS,
-        nextProps.user.response.is_email_notification + '',
+        nextProps.user.is_email_notification + '',
       );
       AsyncStorage.setItem(
         constants.PUSH_NOTIFICATIONS,
-        nextProps.user.response.is_push_notification + '',
+        nextProps.user.is_push_notification + '',
       );
       AsyncStorage.setItem(
         constants.USER_CREATED_AT,
-        nextProps.user.response.created_at,
+        nextProps.user.created_at,
       );
       const resetAction = StackActions.reset({
         index: 0,
