@@ -3,22 +3,28 @@ import Snackbar from 'react-native-snackbar';
 
 export function addFavorite(data) {
   return dispatch =>
-    fetch(Constants.API_BASE_URL + 'favourite/add', {
+    fetch(Constants.API_BASE_URL + 'favorites/create', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        date: data.date,
-        accessToken: data.accessToken,
-        synergistic_id: data.id,
+        // date: data.date,
+        // accessToken: data.accessToken,
+        // synergistic_id: data.id,
+        user: data.user,
+        synergistic:data.id,
+        name:data.name,
+        goal:data.goal
+        
       }),
     })
       .then(response => response.json())
       .then(responseData => {
         console.log('add favorite response', responseData);
-        if (responseData.success) {
+        if (responseData.status) {
+          console.log(responseData)
           dispatch(onSuccess(responseData, data.date, data.name, data.goal));
         } else {
           dispatch(onFailed(responseData, data.date, data.name, data.goal));
