@@ -14,7 +14,7 @@ export function howItWorks() {
       .then(response => response.json())
       .then(responseData => {
         console.log(responseData);
-        if (responseData.success) {
+        if (responseData.status) {
           dispatch(onSuccess(responseData));
         } else {
           dispatch(onFail(responseData));
