@@ -4,7 +4,7 @@ import Snackbar from 'react-native-snackbar';
 export function getFavorites(accessToken) {
   return dispatch =>
     fetch(
-      Constants.API_BASE_URL + 'favourite/getAll?accessToken=' + accessToken,
+      Constants.API_BASE_URL + 'favorites/getAll',
       {
         method: 'GET',
         headers: {
@@ -16,7 +16,7 @@ export function getFavorites(accessToken) {
       .then(response => response.json())
       .then(responseData => {
         console.log('at response data', responseData);
-        if (responseData.success) {
+        if (responseData.status) {
           dispatch(getSuccess(responseData));
         } else {
           dispatch(getFailed(responseData));
