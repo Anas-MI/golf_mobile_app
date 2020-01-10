@@ -3,8 +3,10 @@ import Snackbar from 'react-native-snackbar';
 import {Platform} from 'react-native';
 
 export function loginUser(user) {
+  
+  
   return dispatch =>
-    fetch(Constants.API_BASE_URL + 'user/login', {
+    fetch(Constants.API_BASE_URL + 'authentication/login', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -16,12 +18,13 @@ export function loginUser(user) {
         password: user.password,
         android_device_token: Platform.OS === 'android' ? user.fcm : '',
         ios_device_token: Platform.OS === 'ios' ? user.fcm : '',
+        application:"golfapp"
       }),
     })
       .then(response => response.json())
       .then(responseData => {
         console.log('login is', responseData);
-        if (responseData.success) {
+        if (responseData.auth) {
           dispatch(loginSuccess(responseData));
         } else {
           dispatch(loginFailed(responseData));

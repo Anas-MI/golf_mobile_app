@@ -2,6 +2,7 @@ export function login(state = {}, action) {
   switch (action.type) {
     case 'LOGIN_SUCCESS':
       const userApiResponse = action.response;
+      console.log({"action.response": action.response})
       return Object.assign({}, userApiResponse);
 
     case 'LOGIN_ERROR':

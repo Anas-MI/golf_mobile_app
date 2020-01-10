@@ -31,7 +31,7 @@ class PreviousTaskScreen extends React.Component{
     synergistic_id : 0,
     isLoading: false,
     activeSlide: 0,
-    entries: [],
+    entries: ["http://18.217.138.86/uploads/images/synergistic/5d8c2de2d560d359038368.JPG"],
     test: false,
     backIcon: false,
     textHeader: '',
@@ -66,7 +66,7 @@ class PreviousTaskScreen extends React.Component{
   }
 
   _renderItem ({item, index}) {
-      return <Image style={{backgroundColor: 'white',width: "100%", height: 200, resizeMode: 'contain'}} source={{uri:item.image}} />
+      return <Image style={{backgroundColor: 'white',width: "100%", height: 200, resizeMode: 'contain'}} source={{uri:item}} />
   }
 
   onSubmitPressed = () => {
@@ -109,22 +109,23 @@ class PreviousTaskScreen extends React.Component{
         this.setState({isLoading: false})
         this.props.navigation.dispatch(NavigationActions.back());
       }
+      console.log({"asdsnextProps":nextProps})
       const { formData } = this.state;
-      if (nextProps.contentIs.success) {
-        if (nextProps.contentIs.response) {
+      if (nextProps.contentIs.status) {
+        if (nextProps.contentIs.data) {
           if (dayIs !== 'Sunday' && dayIs !== 'Saturday') {
             this.setState({
-              synergistic_id: nextProps.contentIs.response.id,
+              synergistic_id: nextProps.contentIs.data._id,
               loader: true,
-              name: nextProps.contentIs.response.name,
-              goal: nextProps.contentIs.response.goal,
-              explanation: nextProps.contentIs.response.explanation,
-              nutrition_tip: nextProps.contentIs.response.nutrition_tip,
-              thoughts: nextProps.contentIs.response.thoughts,
-              thought_by: nextProps.contentIs.response.thought_by,
-              think_golf: nextProps.contentIs.response.think_golf,
-              make_me_smile: nextProps.contentIs.response.make_me_smile,
-              entries: nextProps.contentIs.response.images,
+              name: nextProps.contentIs.data.name,
+              goal: nextProps.contentIs.data.goal,
+              explanation: nextProps.contentIs.data.explanation,
+              nutrition_tip: nextProps.contentIs.data.nutritionTip,
+              thoughts: nextProps.contentIs.data.thoughts,
+              thought_by: nextProps.contentIs.data.thoughtGolf,
+              think_golf: nextProps.contentIs.data.thinkGolf,
+              make_me_smile: nextProps.contentIs.data.makeMeSmile,
+              // entries: nextProps.contentIs.data.images,
             })
           } else {
             nextProps.contentIs.response.map((journal) => (
