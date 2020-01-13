@@ -133,10 +133,12 @@ class ShippingDetailsScreen extends React.Component {
         this.props.shippingAddress(data).then(async res => {
           const dataAsString = await new Response(res._bodyInit).text();
           const obj = JSON.parse(dataAsString);
-          if (obj.success) {
+          console.log({obj})
+          if (obj.status) {
+            console.log("inside block")
             this.props.navigation.navigate('Payment', {
-              amount: obj.response.amount,
-              shippingId: obj.response.id,
+              amount: "2800",
+              shippingId: obj.data._id,
               type: 'ebook',
             });
           } else {
