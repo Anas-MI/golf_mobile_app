@@ -41,41 +41,43 @@ class PaymentScreen extends React.Component {
     code: '',
   };
 
+  
+  
   //seting name in setState
   setNameOnCard = text => {
     this.setState({name: text});
   };
-
+  
   //seting card number in setState
   setCardNumber = text => {
     this.setState({cardNumber: text});
   };
-
+  
   //seting card cvv in setState
   setCardCvv = text => {
     this.setState({cvv: text});
   };
-
+  
   //seting card expiry month in setState
   setExpiryMonth = text => {
     this.setState({month: text});
   };
-
+  
   //seting card expiry year in setState
   setExpiryYear = text => {
     this.setState({year: text});
   };
-
+  
   // modal visibility
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
   }
-
+  
   //seting Promocode in setState
   setPromocode = text => {
     this.setState({code: text});
   };
-
+  
   //on Paypal Pressed
   onPaypalPressed = () => {
     const {navigation} = this.props;
@@ -103,7 +105,7 @@ class PaymentScreen extends React.Component {
       });
     });
   };
-
+  
   //on Vip press
   onVipPress = () => {
     const {code} = this.state;
@@ -127,21 +129,21 @@ class PaymentScreen extends React.Component {
               obj.response,
               [{text: 'OK', onPress: () => console.log('OK Pressed')}],
               {cancelable: false},
-            );
-            this.setState({
-              modalVisible: false,
-            });
-            this.props.navigation.navigate('WorkoutView', {
-              url: url,
-            });
-          } else {
-            Snackbar.show({
-              title: obj.error.description,
-              duration: Snackbar.LENGTH_SHORT,
-            });
-          }
+              );
+              this.setState({
+                modalVisible: false,
+              });
+              this.props.navigation.navigate('WorkoutView', {
+                url: url,
+              });
+            } else {
+              Snackbar.show({
+                title: obj.error.description,
+                duration: Snackbar.LENGTH_SHORT,
+              });
+            }
+          });
         });
-      });
     }
   };
 
@@ -198,55 +200,59 @@ class PaymentScreen extends React.Component {
     } else if (
       parseInt(year) == new Date().getFullYear() &&
       parseInt(month) < new Date().getMonth()
-    ) {
-      Snackbar.show({
-        title: constants.VALID_EXPIRY,
-        duration: Snackbar.LENGTH_SHORT,
-      });
-    } else if (year.trim().length === 0) {
-      Snackbar.show({
-        title: constants.EMPTY_EXPIRY_YEAR,
-        duration: Snackbar.LENGTH_SHORT,
-      });
-    } else if (year < new Date().getFullYear()) {
-      Snackbar.show({
-        title: constants.VALID_EXPIRY,
-        duration: Snackbar.LENGTH_SHORT,
-      });
-    } else {
-      this.setState({isLoading: true});
-      AsyncStorage.getItem(constants.ACCESSTOKEN_NAME).then(value => {
-        data.accessToken = value;
-        this.props.addCardSubscription(data).then(async res => {
-          const dataAsString = await new Response(res._bodyInit).text();
-          const obj = JSON.parse(dataAsString);
-          this.setState({isLoading: false});
-          if (obj.success) {
-            Snackbar.show({
-              title: obj.response.description,
-              duration: Snackbar.LENGTH_SHORT,
-            });
-            this.props.navigation.navigate('WorkoutView', {
-              url: url,
-            });
-          } else {
-            Snackbar.show({
-              title: obj.error.description,
-              duration: Snackbar.LENGTH_SHORT,
-            });
-          }
+      ) {
+        Snackbar.show({
+          title: constants.VALID_EXPIRY,
+          duration: Snackbar.LENGTH_SHORT,
         });
-      });
-    }
-  };
-
-  render() {
-    const {navigation} = this.props;
-    const type = navigation.getParam('type');
-    const shippingId = navigation.getParam('shippingId');
-    const amount = navigation.getParam('amount');
-    return (
-      <KeyboardAvoidingView style={styles.container}>
+      } else if (year.trim().length === 0) {
+        Snackbar.show({
+          title: constants.EMPTY_EXPIRY_YEAR,
+          duration: Snackbar.LENGTH_SHORT,
+        });
+      } else if (year < new Date().getFullYear()) {
+        Snackbar.show({
+          title: constants.VALID_EXPIRY,
+          duration: Snackbar.LENGTH_SHORT,
+        });
+      } else {
+        this.setState({isLoading: true});
+        AsyncStorage.getItem(constants.ACCESSTOKEN_NAME).then(value => {
+          data.accessToken = value;
+          this.props.addCardSubscription(data).then(async res => {
+            const dataAsString = await new Response(res._bodyInit).text();
+            const obj = JSON.parse(dataAsString);
+            this.setState({isLoading: false});
+            console.log({obj})
+            if (obj.status) {
+              console.log({obj})
+              Snackbar.show({
+                title: obj.message,
+                duration: Snackbar.LENGTH_SHORT,
+              });
+              this.props.navigation.navigate('WorkoutView', {
+                url: url,
+              });
+            } else {
+              Snackbar.show({
+                title: obj.message,
+                duration: Snackbar.LENGTH_SHORT,
+              });
+            }
+          });
+        });
+      }
+    };
+    
+    render() {
+      console.log("inside payment screen")
+      console.log(this.props)
+      const {navigation} = this.props;
+      const type = navigation.getParam('type');
+      const shippingId = navigation.getParam('shippingId');
+      const amount = navigation.getParam('amount');
+      return (
+        <KeyboardAvoidingView style={styles.container}>
         <Header
           screenName={'Payment'}
           navigator={this.props.navigation}
