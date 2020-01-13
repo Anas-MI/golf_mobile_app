@@ -77,9 +77,11 @@ class PreviousTaskScreen extends React.Component{
 
   onSubmitPressed = () => {
     this.setState({isLoading: true})
+    console.log({formData: this.state.formData})
+    
     const data = {
       answer: this.state.formData,
-      accessToken: accessToken,
+      user:userid,
       date: this.props.navigation.state.params.day.dateString,
     }
     this.props.submit(data);
@@ -134,12 +136,12 @@ class PreviousTaskScreen extends React.Component{
               // entries: nextProps.contentIs.data.images,
             })
           } else {
-            nextProps.contentIs.response.map((journal) => (
+            nextProps.contentIs.journal.map((journal) => (
               formData[journal.question] = journal.answer
             ))
             this.setState({
               loader: true,
-              journal: nextProps.contentIs.response,
+              journal: nextProps.contentIs.journal,
               formData
             })
           }
@@ -148,7 +150,7 @@ class PreviousTaskScreen extends React.Component{
     }
 
 // on change text input
-    onChange = (question,answer) => {
+    onChange = (question,answer, id ) => {
       console.log("at task screen",question,answer);
         const { formData } = this.state;
         formData[question] = answer;
