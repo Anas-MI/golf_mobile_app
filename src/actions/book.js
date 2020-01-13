@@ -17,14 +17,13 @@ export function validateEbook(data) {
 
 export function shippingAddress(data) {
   return dispatch => {
-    return fetch(Constants.API_BASE_URL + 'shipping/address', {
+    return fetch(Constants.API_BASE_URL + 'ebook/save/shipping', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        accessToken: data.accessToken,
         addressLine1: data.addressLine1,
         addressLine2: data.addressLine2,
         country: data.country,
