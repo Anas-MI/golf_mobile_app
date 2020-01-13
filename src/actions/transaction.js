@@ -2,20 +2,20 @@ import Constants from '../config/constants';
 
 export function addCardSubscription(data) {
   return dispatch => {
-    return fetch(Constants.API_BASE_URL + 'subscription/creditcard', {
+    return fetch(Constants.API_BASE_URL + 'ebook/charge', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+      
         name: data.name,
-        cardNumber: data.cardNumber,
-        cvv: data.cvv,
-        month: data.month,
-        year: data.year,
-        accessToken: data.accessToken,
-        id: data.id,
+        number: data.cardNumber,
+        cvc: data.cvv,
+        exp_month: data.month,
+        exp_year: data.year,
+        // id: data.id,
         amount: data.amount,
         shippingId: data.shippingId,
       }),
