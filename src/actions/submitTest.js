@@ -3,22 +3,22 @@ import Snackbar from 'react-native-snackbar';
 
 export function submit(data) {
   return dispatch =>
-    fetch(Constants.API_BASE_URL + 'journal/feed', {
+    fetch(Constants.API_BASE_URL + 'journal/feed/create', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        answer: data.answer,
-        accessToken: data.accessToken,
+        journalFeed: data.answer,
+        user: data.user,
         date: data.date,
       }),
     })
       .then(response => response.json())
       .then(responseData => {
         console.log('at submit is', responseData);
-        if (responseData.success) {
+        if (responseData.status) {
           dispatch(getSuccess(responseData));
         } else {
           dispatch(getFailed(responseData));
