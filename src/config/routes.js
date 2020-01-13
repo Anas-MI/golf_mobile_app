@@ -18,9 +18,9 @@ import WebviewScreen from '../screens/WebviewScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import FavouriteScreen from '../screens/FavouriteScreen';
 import WorkoutScreen from '../screens/WorkoutScreen';
-// import PaymentScreen from '../screens/PaymentScreen';
+import PaymentScreen from '../screens/PaymentScreen';
 import WorkoutViewScreen from '../screens/WorkoutViewScreen';
-// import PaypalScreen from '../screens/PaypalScreen';
+import PaypalScreen from '../screens/PaypalScreen';
 import EbookViewScreen from '../screens/EbookViewScreen';
 import ShippingDetailsScreen from '../screens/ShippingDetailsScreen';
 import MyFitFoGolfGoals from '../screens/MyFitFoGolfGoals';
@@ -166,24 +166,24 @@ const ModalStack = createStackNavigator({
       header: null,
     },
   },
-  // Payment: {
-  //   screen: PaymentScreen,
-  //   navigationOptions: {
-  //     header: null,
-  //   },
-  // },
+  Payment: {
+    screen: PaymentScreen,
+    navigationOptions: {
+      header: null,
+    },
+  },
   WorkoutView: {
     screen: WorkoutViewScreen,
     navigationOptions: {
       header: null,
     },
   },
-  // Paypal: {
-  //   screen: PaypalScreen,
-  //   navigationOptions: {
-  //     header: null,
-  //   },
-  // },
+  Paypal: {
+    screen: PaypalScreen,
+    navigationOptions: {
+      header: null,
+    },
+  },
   Ebook: {
     screen: EbookViewScreen,
     navigationOptions: {
