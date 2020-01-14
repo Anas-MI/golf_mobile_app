@@ -30,6 +30,7 @@ export function shippingAddress(data) {
         state: data.state,
         city: data.city,
         pincode: data.pincode,
+        user: data.user
       }),
     });
   };
