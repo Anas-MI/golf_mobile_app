@@ -93,8 +93,8 @@ class EbookViewScreen extends React.Component {
         />
         <WebView
           source={{
-            uri:
-              'https://www.dropbox.com/sh/cipvoewtwcnzb3t/AAA5tBt-oxJv77fr-Qc_g-Xla?dl=0&preview=SYNERGISTIC+GOLF+PAGES.pdf',
+            uri:url
+              // 'https://www.dropbox.com/sh/cipvoewtwcnzb3t/AAA5tBt-oxJv77fr-Qc_g-Xla?dl=0&preview=SYNERGISTIC+GOLF+PAGES.pdf',
           }}
           javaScriptEnabled={true}
           domStorageEnabled={true}
