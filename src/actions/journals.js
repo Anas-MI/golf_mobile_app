@@ -8,7 +8,7 @@ export function content(data) {
       Constants.API_BASE_URL +
         "journal/get/journals",
       {
-        method: 'GET',
+        method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
