@@ -1,5 +1,6 @@
 import React from 'react';
 import * as RNIap from 'react-native-iap';
+import Constant from "../../config/constants"
 import {
   ScrollView,
   View,
@@ -18,6 +19,7 @@ import {howItWorks} from '../../actions/howItWorks';
 import HTML from 'react-native-render-html';
 import constants from '../../config/constants';
 import {validateEbook} from '../../actions/book';
+import axios from "axios";
 
 class HIWScreen extends React.Component {
   state = {
@@ -82,30 +84,51 @@ class HIWScreen extends React.Component {
   onEbookPress = () => {
 
  
-    RNIap.requestPurchase('org.reactjs.native.example.SynergisticGolf.ebook').then(purchase => {
-      console.log({purchase})
-      this.setState({
-       receipt: purchase.transactionReceipt
-      });
-      let test = purchase.transactionReceipt;
-      Alert.alert(`Success!! - ${test}`)
-     // handle success of purchase product
-     }).catch((error) => {
-       Alert.alert(`${error}`)
-      console.log(error.message);
-     })
+    // RNIap.requestPurchase('org.reactjs.native.example.SynergisticGolf.ebook').then(purchase => {
+    //   console.log({purchase})
+    //   this.setState({
+    //    receipt: purchase.transactionReceipt
+    //   });
+    //   let test = purchase.transactionReceipt;
+    //   Alert.alert(`Success!! - ${test}`)
+    //   axios.post()
+    //  // handle success of purchase product
+    //  }).catch((error) => {
+    //    Alert.alert(`${error}`)
+    //   console.log(error.message);
+    //  })
 
-    AsyncStorage.getItem(constants.ACCESSTOKEN_NAME).then(value => {
+  
+
+    AsyncStorage.getItem(constants.USER_ID).then(value => {
       let data = {accessToken: value};
       this.props.validateEbook(data).then(async res => {
         const dataAsString = await new Response(res._bodyInit).text();
         const obj = JSON.parse(dataAsString);
-        if (obj.success) {
+        if (obj.status) {
           this.props.navigation.navigate('Ebook', {
             url: 'http://18.217.138.86/SYNERGISTIC-GOLF.pdf',
           });
         } else {
 
+
+          RNIap.requestPurchase('org.reactjs.native.example.SynergisticGolf.ebook').then(purchase => {
+            console.log({purchase})
+            this.setState({
+             receipt: purchase.transactionReceipt
+            });
+            let test = purchase.transactionReceipt;
+            let postUrl = Constants.API_BASE_URL + "ebook/inapp"
+            axios.post(postUrl, {reciept: purchase.transactionReceipt, userId: value }).then(
+
+              Alert.alert(`Transaction Successful`)
+            )
+
+           // handle success of purchase product
+           }).catch((error) => {
+             Alert.alert(`${error}`)
+            console.log(error.message);
+           })
 
           // //Purchase an app from ios in app purchases
           // RNIap.buyProduct('org.reactjs.native.example.SynergisticGolf.ebook').then(purchase => {
@@ -119,10 +142,10 @@ class HIWScreen extends React.Component {
           //  })
 
 
-          this.props.navigation.navigate('Payment', {
-            type: 'ebook',
-            amount: obj.response.amount,
-          });
+          // this.props.navigation.navigate('Payment', {
+          //   type: 'ebook',
+          //   amount: obj.response.amount,
+          // });
         }
       });
     });
