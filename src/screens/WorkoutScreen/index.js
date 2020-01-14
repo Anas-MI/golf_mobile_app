@@ -72,7 +72,7 @@ class WorkoutScreen extends React.Component {
       this.props.validateEbook(data).then(async res => {
         const dataAsString = await new Response(res._bodyInit).text();
         const obj = JSON.parse(dataAsString);
-        if (obj.success) {
+        if (obj.status) {
           this.props.navigation.navigate('Ebook', {
             url: 'http://18.217.138.86/SYNERGISTIC-GOLF.pdf',
           });
