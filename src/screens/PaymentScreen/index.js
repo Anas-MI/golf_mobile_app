@@ -92,9 +92,10 @@ class PaymentScreen extends React.Component {
         this.setState({paypalClick: false});
         const dataAsString = await new Response(res._bodyInit).text();
         const obj = JSON.parse(dataAsString);
+        console.log({obj})
         if (obj.success) {
           this.props.navigation.navigate('Paypal', {
-            url: obj.response.secureAcceptanceUrl,
+            url: obj.url,
           });
         } else {
           Snackbar.show({
@@ -155,6 +156,8 @@ class PaymentScreen extends React.Component {
     const id = navigation.getParam('id');
     const amount = navigation.getParam('amount');
     const shippingId = navigation.getParam('shippingId');
+    const userId = navigation.getParam('user');
+
     const {name, cardNumber, cvv, month, year} = this.state;
     const data = {
       isLoading: false,
@@ -166,6 +169,7 @@ class PaymentScreen extends React.Component {
       id: id,
       amount: amount,
       shippingId: shippingId,
+      userId
     };
     if (cardNumber.trim().length === 0) {
       Snackbar.show({
