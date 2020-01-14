@@ -2,7 +2,7 @@ import Constants from '../config/constants';
 
 export function getWorkouts() {
   return dispatch =>
-    fetch(Constants.API_BASE_URL + 'workout/get', {
+    fetch(Constants.API_BASE_URL + 'workout/getall', {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -11,7 +11,7 @@ export function getWorkouts() {
     })
       .then(response => response.json())
       .then(responseData => {
-        if (responseData.success) {
+        if (responseData.status) {
           dispatch(getSuccess(responseData));
         }
       })

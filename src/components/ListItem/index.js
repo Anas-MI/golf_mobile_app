@@ -17,7 +17,7 @@ class ListItem extends React.PureComponent {
   }
 
   componentWillMount = () => {
-    AsyncStorage.getItem(constants.ACCESSTOKEN_NAME).then((value) => {
+    AsyncStorage.getItem(constants.USER_ID).then((value) => {
       this.setState({
         accessToken: value
       })
@@ -29,7 +29,7 @@ class ListItem extends React.PureComponent {
     let subscribed = false
     if (item.subscriptions.length > 0) {
       item.subscriptions.map((subscription) => {
-        if (subscription.user.access_token == this.state.accessToken) {
+        if (subscription == this.state.accessToken) {
           subscribed = true;
         }
       })
@@ -45,7 +45,7 @@ class ListItem extends React.PureComponent {
           <View style={styles.rightContainer}>
             <Text  style={styles.heading}>{item.title}</Text>
             <HTML style={styles.subHeading} html={item.description} />
-              { item.is_paid == false ?
+              { item.isPaid == false ?
                 <View style={styles.buttonContainer}>
                   <Text style={styles.buttonText}>Free</Text>
                 </View>

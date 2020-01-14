@@ -112,6 +112,8 @@ class WorkoutScreen extends React.Component {
 
   render() {
     let {workouts} = this.props;
+    console.log({workouts})
+    console.log(workouts.length)
     return (
       <ScrollView>
         <Header
@@ -134,18 +136,18 @@ class WorkoutScreen extends React.Component {
             />
           </View>
           <View style={styles.rightContainer}>
-            {/* <TouchableOpacity
+            <TouchableOpacity
               style={{width: '50%'}}
               onPress={this.obBuyPress}>
               <View style={styles.buttonContainer}>
                 <Text style={styles.buttonText}>Ebook</Text>
                 <Text style={[styles.buttonText, {marginLeft: 5}]}>$19</Text>
               </View>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
             <TouchableOpacity style={{width: '50%'}} onPress={this.onBuyPress}>
               <View style={styles.buttonContainer}>
                 <Text style={styles.buttonText}>View Book</Text>
-                {/* <Text style={[styles.buttonText, {marginLeft: 5}]}>$29</Text> */}
+                <Text style={[styles.buttonText, {marginLeft: 5}]}>$29</Text>
               </View>
             </TouchableOpacity>
           </View>

@@ -8,7 +8,8 @@ const initialState = freeze({
 export default (state = initialState, action={}) => {
   switch (action.type) {
     case 'WORKOUT_LIST':
-      return assoc(state, 'data', action.response.response);
+      console.log({action})
+      return assoc(state, 'data', action.response.data);
 
     default:
       return state;

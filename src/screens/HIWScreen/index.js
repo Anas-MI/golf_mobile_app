@@ -19,7 +19,7 @@ import {howItWorks} from '../../actions/howItWorks';
 import HTML from 'react-native-render-html';
 import constants from '../../config/constants';
 import {validateEbook} from '../../actions/book';
-import axios from "axios";
+// import axios from "axios";
 
 class HIWScreen extends React.Component {
   state = {
@@ -119,10 +119,31 @@ class HIWScreen extends React.Component {
             });
             let test = purchase.transactionReceipt;
             let postUrl = Constants.API_BASE_URL + "ebook/inapp"
-            axios.post(postUrl, {reciept: purchase.transactionReceipt, userId: value }).then(
+
+            fetch(postUrl, {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                reciept: purchase.transactionReceipt, userId: value 
+              }),
+            }).then(async res => {
+              const dataAsString = await new Response(res._bodyInit).text();
+              const obj = JSON.parse(dataAsString);
+            if(obj.status){
 
               Alert.alert(`Transaction Successful`)
-            )
+            } else {
+              Alert.alert(`${obj.message}`)
+              console.log(obj);
+
+            }
+            })
+
+
+            
 
            // handle success of purchase product
            }).catch((error) => {
