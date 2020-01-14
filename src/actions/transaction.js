@@ -16,7 +16,7 @@ export function addCardSubscription(data) {
         exp_month: data.month,
         exp_year: data.year,
         // id: data.id,
-        amount: data.amount,
+        amount: data.amount * 100,
         shippingId: data.shippingId,
       }),
     });
@@ -25,7 +25,7 @@ export function addCardSubscription(data) {
 
 export function addPaypalSubscription(data) {
   return dispatch => {
-    return fetch(Constants.API_BASE_URL + 'subscription/paypal', {
+    return fetch(Constants.API_BASE_URL + 'paypal/buy', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -36,6 +36,7 @@ export function addPaypalSubscription(data) {
         id: data.id,
         amount: data.amount,
         shippingId: data.shippingId,
+        user:data.userId
       }),
     });
   };
