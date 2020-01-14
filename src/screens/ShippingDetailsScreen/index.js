@@ -31,6 +31,14 @@ class ShippingDetailsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.inputs = {};
+
+    AsyncStorage.getItem(constants.USER_ID).then(id => {
+      this.setState({userid: id})
+    }).catch(err => {
+      console.log(err)
+    })
+
+
   }
 
   state = {
@@ -87,6 +95,7 @@ class ShippingDetailsScreen extends React.Component {
       state,
       city,
       pincode,
+      userid
     } = this.state;
     const data = {
       addressLine1: addressLine1,
@@ -95,6 +104,7 @@ class ShippingDetailsScreen extends React.Component {
       state: state,
       city: city,
       pincode: pincode,
+      user:userid
     };
     if (addressLine1.trim().length === 0) {
       Snackbar.show({
@@ -137,8 +147,9 @@ class ShippingDetailsScreen extends React.Component {
           if (obj.status) {
             console.log("inside block")
             this.props.navigation.navigate('Payment', {
-              amount: "2800",
+              amount: "28",
               shippingId: obj.data._id,
+              userId:obj.data.user,
               type: 'ebook',
             });
           } else {
