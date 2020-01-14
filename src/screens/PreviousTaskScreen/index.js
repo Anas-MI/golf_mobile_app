@@ -144,6 +144,7 @@ class PreviousTaskScreen extends React.Component{
               journal: nextProps.contentIs.journal,
               formData
             })
+            console.log(this.state)
           }
         }
       }
