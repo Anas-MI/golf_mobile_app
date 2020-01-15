@@ -25,7 +25,7 @@ class MyFitForGolfGoals extends Component {
   }
 
   componentDidMount() {
-    AsyncStorage.getItem(constants.ACCESSTOKEN_NAME).then(token => {
+    AsyncStorage.getItem(constants.USER_ID).then(token => {
       if (token) {
         this.props.getFitGoals(token);
       }
