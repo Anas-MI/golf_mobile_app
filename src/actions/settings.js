@@ -39,7 +39,7 @@ export function onSuccess(response) {
 
 export function onFailed(response) {
   Snackbar.show({
-    title: response.error.description,
+    title: response.message,
     duration: Snackbar.LENGTH_SHORT,
   });
   return {

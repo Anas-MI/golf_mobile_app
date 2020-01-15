@@ -47,7 +47,7 @@ export function onSuccess(response, date, name, goal) {
 
 export function onFailed(response, date, name, goal) {
   Snackbar.show({
-    title: response.error.description,
+    title: response.message,
     duration: Snackbar.LENGTH_SHORT,
   });
   return {

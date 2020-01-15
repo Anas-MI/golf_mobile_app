@@ -3,8 +3,9 @@ import Snackbar from 'react-native-snackbar';
 import {Platform} from 'react-native';
 
 export function signupUser(user) {
+
   return dispatch =>
-    fetch(Constants.API_BASE_URL + 'user/register', {
+    fetch(Constants.API_BASE_URL + 'authentication/register', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -19,6 +20,7 @@ export function signupUser(user) {
         age: user.age,
         address: user.address,
         country: user.country,
+        device: Platform.OS === 'ios'? "ios" : "android",
         android_device_token: Platform.OS === 'android' ? user.fcm : '',
         ios_device_token: Platform.OS === 'ios' ? user.fcm : '',
       }),
@@ -26,7 +28,7 @@ export function signupUser(user) {
       .then(response => response.json())
       .then(responseData => {
         console.log(responseData, user);
-        if (responseData.success) {
+        if (responseData.status) {
           dispatch(loginSuccess(responseData));
         } else {
           dispatch(loginFailed(responseData));
@@ -46,7 +48,7 @@ export function loginSuccess(response) {
 
 export function loginFailed(response) {
   Snackbar.show({
-    title: response.error.description,
+    title: response.message,
     duration: Snackbar.LENGTH_SHORT,
   });
   return {

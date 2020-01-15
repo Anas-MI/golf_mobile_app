@@ -37,7 +37,7 @@ export function loginSuccess(response) {
 
 export function loginFailed(response) {
   Snackbar.show({
-    title: response.error.description,
+    title: response.message,
     duration: Snackbar.LENGTH_SHORT,
   });
   return {
