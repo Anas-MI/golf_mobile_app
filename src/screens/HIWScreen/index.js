@@ -127,7 +127,7 @@ class HIWScreen extends React.Component {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify({
-                reciept: purchase.transactionReceipt, userId: value 
+                reciept: this.state.receipt, userId: value 
               }),
             }).then(async res => {
               const dataAsString = await new Response(res._bodyInit).text();
@@ -151,16 +151,7 @@ class HIWScreen extends React.Component {
             console.log(error.message);
            })
 
-          // //Purchase an app from ios in app purchases
-          // RNIap.buyProduct('org.reactjs.native.example.SynergisticGolf.ebook').then(purchase => {
-          //   console.log({purchase})
-          //   this.setState({
-          //    receipt: purchase.transactionReceipt
-          //   });
-          //  // handle success of purchase product
-          //  }).catch((error) => {
-          //   console.log(error.message);
-          //  })
+       
 
 
           // this.props.navigation.navigate('Payment', {
