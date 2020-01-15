@@ -22,6 +22,37 @@ class AboutUsScreen extends React.Component {
     data: ' -- ',
   };
 
+  async componentDidMount() {
+
+
+    const itemSkus = Platform.select({
+      ios: [
+        'org.reactjs.native.example.SynergisticGolf.ebook'
+      ],
+      android: [
+        'com.example.coins100'
+      ]
+    });
+
+
+    try {
+      const products = await RNIap.getProducts(itemSkus);
+      this.setState({ products });
+      console.log({products})
+    } catch(err) {
+      console.log(err); // standardized err.code and err.message available
+    }
+  }
+
+
+  async componentWillMount () {
+    this.props.howItWorks();
+
+
+
+  };
+
+
   componentWillMount = () => {
     this.props.aboutUs();
   };
@@ -57,20 +88,68 @@ class AboutUsScreen extends React.Component {
 
   //on Ebook press
   onEbookPress = () => {
-    AsyncStorage.getItem(constants.ACCESSTOKEN_NAME).then(value => {
+
+
+  
+
+    AsyncStorage.getItem(constants.USER_ID).then(value => {
       let data = {accessToken: value};
       this.props.validateEbook(data).then(async res => {
         const dataAsString = await new Response(res._bodyInit).text();
         const obj = JSON.parse(dataAsString);
-        if (obj.success) {
+        if (obj.status) {
           this.props.navigation.navigate('Ebook', {
             url: 'http://18.217.138.86/SYNERGISTIC-GOLF.pdf',
           });
         } else {
-          this.props.navigation.navigate('Payment', {
-            type: 'ebook',
-            amount: obj.response.amount,
-          });
+
+
+          RNIap.requestPurchase('org.reactjs.native.example.SynergisticGolf.ebook').then(purchase => {
+            console.log({purchase})
+            this.setState({
+             receipt: purchase.transactionReceipt
+            });
+            let test = purchase.transactionReceipt;
+            let postUrl = Constants.API_BASE_URL + "ebook/inapp"
+
+            fetch(postUrl, {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                reciept: this.state.receipt, userId: value 
+              }),
+            }).then(async res => {
+              const dataAsString = await new Response(res._bodyInit).text();
+              const obj = JSON.parse(dataAsString);
+            if(obj.status){
+
+              Alert.alert(`Transaction Successful`)
+            } else {
+              Alert.alert(`${obj.message}`)
+              console.log(obj);
+
+            }
+            })
+
+
+            
+
+           // handle success of purchase product
+           }).catch((error) => {
+             Alert.alert(`${error}`)
+            console.log(error.message);
+           })
+
+       
+
+
+          // this.props.navigation.navigate('Payment', {
+          //   type: 'ebook',
+          //   amount: obj.response.amount,
+          // });
         }
       });
     });
@@ -131,14 +210,14 @@ class AboutUsScreen extends React.Component {
             />
           </View>
           <View style={styles.rightContainer}>
-            {/* <TouchableOpacity
+            <TouchableOpacity
               style={{width: '50%'}}
               onPress={this.onEbookPress}>
               <View style={styles.buttonContainer}>
                 <Text style={styles.buttonText}>Ebook</Text>
                 <Text style={[styles.buttonText, {marginLeft: 5}]}>$19</Text>
               </View>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
             <TouchableOpacity style={{width: '50%'}} onPress={this.onBuyPress}>
               <View style={styles.buttonContainer}>
                 <Text style={styles.buttonText}>Buy Book</Text>
