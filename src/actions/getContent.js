@@ -14,7 +14,8 @@ export function content(data) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          date: data.date
+          date: data.date,
+          accessToken: data.accessToken
         }),
       },
     )

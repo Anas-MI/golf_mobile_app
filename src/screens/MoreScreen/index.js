@@ -42,6 +42,7 @@ class MoreScreen extends React.Component {
     let keys = [
       constants.ACCESSTOKEN_NAME,
       constants.USER_CREATED_AT,
+      constants.USER_ID,
       constants.EMAIL_NOTIFICATIONS,
       constants.PUSH_NOTIFICATIONS,
     ];

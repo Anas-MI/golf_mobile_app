@@ -23,12 +23,14 @@ export function signupUser(user) {
         device: Platform.OS === 'ios'? "ios" : "android",
         android_device_token: Platform.OS === 'android' ? user.fcm : '',
         ios_device_token: Platform.OS === 'ios' ? user.fcm : '',
+        application:"golfapp"
       }),
     })
       .then(response => response.json())
       .then(responseData => {
         console.log(responseData, user);
-        if (responseData.status) {
+        if (responseData.registered) {
+          console.log("registration success!")
           dispatch(loginSuccess(responseData));
         } else {
           dispatch(loginFailed(responseData));
@@ -48,7 +50,7 @@ export function loginSuccess(response) {
 
 export function loginFailed(response) {
   Snackbar.show({
-    title: response.message,
+    title: response.error,
     duration: Snackbar.LENGTH_SHORT,
   });
   return {

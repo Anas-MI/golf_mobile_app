@@ -43,6 +43,7 @@ class ScheduleScreen extends React.Component{
         min.setDate(min.getDate() - 7);
         min =  moment(min).format("YYYY-MM-DD");
       this.setState({minDate: min})
+      console.log({"min":this.state.minDate})
     });
 
     currentDate  = new Date();

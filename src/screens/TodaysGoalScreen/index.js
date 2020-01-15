@@ -50,7 +50,8 @@ class TodaysGoalScreen extends React.Component{
 
   componentWillMount = () => {
 
-    var today  = new Date();
+    AsyncStorage.getItem(constants.USER_CREATED_AT).then((value) => {
+    var today  = new Date(value)
     var dd = today.getDate();
     var mm = today.getMonth()+1; //January is 0!
     var yyyy = today.getFullYear();
@@ -66,22 +67,22 @@ class TodaysGoalScreen extends React.Component{
     console.log(yyyy+"-"+mm+"-"+dd);
 
   //getting access tokek from async storage
-    AsyncStorage.getItem(constants.ACCESSTOKEN_NAME).then((value) => {
       accessToken = value;
       const data = {
         date: yyyy+"-"+mm+"-"+dd,
         accessToken: value,
       }
+      console.log({"tdss": data.date})
       this.props.content(data);
+      
+      
+      
+      dateIs = moment(today).format("dddd, MMM Do YY");
+      dayIs = today.getDay();
+      console.log("at time data is",dateIs);
+      this.setState({backIcon: false, textHeader: moment().format("dddd, MMM Do YYYY")})
     });
-
-
-
-    dateIs = moment(today).format("dddd, MMM Do YY");
-    dayIs = today.getDay();
-    console.log("at time data is",dateIs);
-    this.setState({backIcon: false, textHeader: moment(today).format("dddd, MMM Do YYYY")})
-  }
+    }
 
   _renderItem ({item, index}) {
     console.log("at carsoul",item,index);
