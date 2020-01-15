@@ -70,7 +70,7 @@ class ForgotScreen extends React.Component {
   //component will recieve props where we get response from redux and api
   componentWillReceiveProps(nextProps) {
     this.setState({isLoading: false});
-    if (nextProps.forgotResponse.success) {
+    if (nextProps.forgotResponse.status) {
       this.props.navigation.navigate('Login');
       // const resetAction = NavigationActions.reset({
       //   index: 0,

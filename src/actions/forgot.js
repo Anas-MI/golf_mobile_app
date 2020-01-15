@@ -3,7 +3,7 @@ import Snackbar from 'react-native-snackbar';
 
 export function forgotPassword(user) {
   return dispatch =>
-    fetch(Constants.API_BASE_URL + 'user/resetpassword', {
+    fetch(Constants.API_BASE_URL + 'users/forget', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -17,7 +17,7 @@ export function forgotPassword(user) {
       .then(response => response.json())
       .then(responseData => {
         console.log(responseData, user);
-        if (responseData.success) {
+        if (responseData.status) {
           dispatch(loginSuccess(responseData));
         } else {
           dispatch(loginFailed(responseData));
