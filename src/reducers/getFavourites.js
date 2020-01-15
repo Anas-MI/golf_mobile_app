@@ -11,11 +11,11 @@ export default (state = initialState, action={}) => {
 
     case 'GETFAVORITE_SUCCESS':
       var array = [];
-      action.response.response.forEach((val) => {
+      action.response.data.forEach((val) => {
         const data = {
-          name: val.synergistic.name,
-          date: val.created_at.substring(0, 10),
-          goal: val.synergistic.goal,
+          name: val.name,
+          date: val.date.substring(0, 10),
+          goal: val.goal,
         }
         array.push(data)
       });
@@ -23,7 +23,9 @@ export default (state = initialState, action={}) => {
       return assoc(state, 'favoriteDates', array.reverse());
 
     case 'ADD_FAV_SUCCESS':
-      if (action.response.response === 'Successfully removed from Favourite') {
+      if (action.response.message === 'Successfully removed from Favourite') {
+        console.log("inside remove block -  -app")
+
           const unfavIndex = _.findIndex(state.favoriteDates, { 'date':action.date });
           console.log("index is ",unfavIndex);
           const deleteFrom = dissocIn(state, ['favoriteDates', [unfavIndex]])

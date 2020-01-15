@@ -162,7 +162,7 @@ class PreviousTaskScreen extends React.Component{
 
   // heart pressed or unpressed
     favoritePress = (state) => {
-      console.log(id)
+      
       const data = {
         date: this.props.navigation.state.params.day.dateString,
         accessToken: accessToken,
