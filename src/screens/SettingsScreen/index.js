@@ -20,7 +20,7 @@ class SettingsScreen extends React.Component{
   }
 
   componentWillMount = () => {
-   AsyncStorage.getItem(constants.ACCESSTOKEN_NAME).then((value) => {
+   AsyncStorage.getItem(constants.USER_ID).then((value) => {
      accessToken = value;
    });
    AsyncStorage.getItem(constants.EMAIL_NOTIFICATIONS).then((value) => {

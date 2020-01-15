@@ -3,7 +3,7 @@ import Snackbar from 'react-native-snackbar';
 
 export function settings(setting) {
   return dispatch =>
-    fetch(Constants.API_BASE_URL + 'user/settings', {
+    fetch(Constants.API_BASE_URL + 'users/settings', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -19,7 +19,7 @@ export function settings(setting) {
       .then(response => response.json())
       .then(responseData => {
         console.log('settings is', setting);
-        if (responseData.success) {
+        if (responseData.status) {
           dispatch(onSuccess(responseData));
         } else {
           dispatch(onFailed(responseData));
