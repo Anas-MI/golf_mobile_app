@@ -8,7 +8,10 @@ import {
   FlatList,
   ScrollView,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
+import * as RNIap from 'react-native-iap';
+
 import Snackbar from 'react-native-snackbar';
 import styles from './style';
 import constants from '../../config/constants';
@@ -22,11 +25,25 @@ import {
   validatePromocode,
 } from '../../actions/workout';
 import {validateEbook} from '../../actions/book';
+import Constants from '../../config/constants';
 
 class WorkoutScreen extends React.Component {
-  componentDidMount = () => {
+  async componentDidMount() {
     this.props.getWorkouts();
-  };
+
+    const itemSkus = Platform.select({
+      ios: ['org.reactjs.native.example.SynergisticGolf.workout'],
+      android: ['com.example.coins100'],
+    });
+
+    try {
+      const products = await RNIap.getProducts(itemSkus);
+      this.setState({products});
+      console.log({products});
+    } catch (err) {
+      console.log(err); // standardized err.code and err.message available
+    }
+  }
 
   //on download all press
   onDownloadAllWorkoutsPress = () => {
@@ -88,21 +105,56 @@ class WorkoutScreen extends React.Component {
 
   //on video press
   onVideoPress = item => {
-    AsyncStorage.getItem(constants.ACCESSTOKEN_NAME).then(value => {
-      let data = {accessToken: value, id: item.id};
+    AsyncStorage.getItem(constants.USER_ID).then(value => {
+      let data = {userId: value, videoId: item._id};
       this.props.validateWorkout(data).then(async res => {
         const dataAsString = await new Response(res._bodyInit).text();
         const obj = JSON.parse(dataAsString);
-        if (obj.success) {
+        if (obj.status) {
           this.props.navigation.navigate('WorkoutView', {
             url: item.url,
           });
         } else {
-          this.props.navigation.navigate('Payment', {
-            url: item.url,
-            id: item.id,
-            amount: obj.response.amount,
-          });
+          // this.props.navigation.navigate('Payment', {
+          //   url: item.url,
+          //   id: item.id,
+          //   amount: obj.response.amount,
+          // });
+
+          RNIap.requestPurchase(
+            'org.reactjs.native.example.SynergisticGolf.workout',
+          )
+            .then(purchase => {
+              console.log({purchase});
+              this.setState({
+                receipt: purchase.transactionReceipt,
+              });
+              fetch(Constants.API_BASE_URL + 'workout/subscribe', {
+                method: 'POST',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  userId: value,
+                  videoId: item._id,
+                  receipt: this.state.receipt,
+                }),
+              })
+                .then(response => response.json())
+                .then(responseData => {
+                  if (responseData.status) {
+                    Alert.alert('Transaction Successful!');
+                  }
+                })
+                .catch(error => {
+                  console.log(error);
+                });
+            })
+            .catch(error => {
+              Alert.alert(`${error}`);
+              console.log(error.message);
+            });
         }
       });
     });
@@ -112,8 +164,8 @@ class WorkoutScreen extends React.Component {
 
   render() {
     let {workouts} = this.props;
-    console.log({workouts})
-    console.log(workouts.length)
+    console.log({workouts});
+    console.log(workouts.length);
     return (
       <ScrollView>
         <Header
@@ -136,9 +188,7 @@ class WorkoutScreen extends React.Component {
             />
           </View>
           <View style={styles.rightContainer}>
-            <TouchableOpacity
-              style={{width: '50%'}}
-              onPress={this.obBuyPress}>
+            <TouchableOpacity style={{width: '50%'}} onPress={this.obBuyPress}>
               <View style={styles.buttonContainer}>
                 <Text style={styles.buttonText}>Ebook</Text>
                 <Text style={[styles.buttonText, {marginLeft: 5}]}>$19</Text>
@@ -188,13 +238,10 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    getWorkouts,
-    validateWorkout,
-    validateAllWorkout,
-    validatePromocode,
-    validateEbook,
-  },
-)(WorkoutScreen);
+export default connect(mapStateToProps, {
+  getWorkouts,
+  validateWorkout,
+  validateAllWorkout,
+  validatePromocode,
+  validateEbook,
+})(WorkoutScreen);

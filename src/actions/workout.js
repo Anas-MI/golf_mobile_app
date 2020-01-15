@@ -24,17 +24,17 @@ export function validateWorkout(data) {
   return dispatch => {
     return fetch(
       Constants.API_BASE_URL +
-        'workout/' +
-        data.id +
-        '/validate?accessToken=' +
-        data.accessToken,
+        'workout/validate',
       {
-        method: 'GET',
+        method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-        },
-      },
+        },body: JSON.stringify({
+          userId: data.userId,
+          videoId: data.videoId
+        })
+      }
     );
   };
 }
