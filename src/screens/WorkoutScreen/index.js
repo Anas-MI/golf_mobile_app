@@ -82,26 +82,92 @@ class WorkoutScreen extends React.Component {
     this.props.navigation.navigate('ShippingDeatils');
   };
 
+
+  //Old developer code
   //on Ebook press
-  onEbookPress = () => {
-    AsyncStorage.getItem(constants.ACCESSTOKEN_NAME).then(value => {
-      let data = {accessToken: value};
-      this.props.validateEbook(data).then(async res => {
-        const dataAsString = await new Response(res._bodyInit).text();
-        const obj = JSON.parse(dataAsString);
-        if (obj.status) {
-          this.props.navigation.navigate('Ebook', {
-            url: 'http://18.217.138.86/SYNERGISTIC-GOLF.pdf',
+  // onEbookPress = () => {
+  //   AsyncStorage.getItem(constants.ACCESSTOKEN_NAME).then(value => {
+  //     let data = {accessToken: value};
+  //     this.props.validateEbook(data).then(async res => {
+  //       const dataAsString = await new Response(res._bodyInit).text();
+  //       const obj = JSON.parse(dataAsString);
+  //       if (obj.status) {
+  //         this.props.navigation.navigate('Ebook', {
+  //           url: 'http://18.217.138.86/SYNERGISTIC-GOLF.pdf',
+  //         });
+  //       } else {
+  //         this.props.navigation.navigate('Payment', {
+  //           type: 'ebook',
+  //           amount: obj.response.amount,
+  //         });
+  //       }
+  //     });
+  //   });
+  // };
+
+//on Ebook press
+onEbookPress = () => {
+
+ 
+ 
+
+  AsyncStorage.getItem(constants.USER_ID).then(value => {
+    let data = {accessToken: value};
+    this.props.validateEbook(data).then(async res => {
+      const dataAsString = await new Response(res._bodyInit).text();
+      const obj = JSON.parse(dataAsString);
+      if (obj.status) {
+        this.props.navigation.navigate('Ebook', {
+          url: 'http://18.217.138.86/SYNERGISTIC-GOLF.pdf',
+        });
+      } else {
+
+
+        RNIap.requestPurchase('org.reactjs.native.example.SynergisticGolf.ebook').then(purchase => {
+          console.log({purchase})
+          this.setState({
+           receipt: purchase.transactionReceipt
           });
-        } else {
-          this.props.navigation.navigate('Payment', {
-            type: 'ebook',
-            amount: obj.response.amount,
-          });
-        }
-      });
+          let test = purchase.transactionReceipt;
+          let postUrl = Constants.API_BASE_URL + "ebook/inapp"
+
+          fetch(postUrl, {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              reciept: this.state.receipt, userId: value 
+            }),
+          }).then(async res => {
+            const dataAsString = await new Response(res._bodyInit).text();
+            const obj = JSON.parse(dataAsString);
+          if(obj.status){
+
+            Alert.alert(`Transaction Successful`)
+          } else {
+            Alert.alert(`${obj.message}`)
+            console.log(obj);
+
+          }
+          })
+
+
+          
+
+         // handle success of purchase product
+         }).catch((error) => {
+           Alert.alert(`${error}`)
+          console.log(error.message);
+         })
+
+      
+      }
     });
-  };
+  });
+};
+
 
   //on video press
   onVideoPress = item => {
@@ -110,6 +176,7 @@ class WorkoutScreen extends React.Component {
       this.props.validateWorkout(data).then(async res => {
         const dataAsString = await new Response(res._bodyInit).text();
         const obj = JSON.parse(dataAsString);
+        console.log({obj})
         if (obj.status) {
           this.props.navigation.navigate('WorkoutView', {
             url: item.url,
@@ -173,8 +240,8 @@ class WorkoutScreen extends React.Component {
           navigator={this.props.navigation}
           submitIcon={false}
           backIcon={true}
-          downloadAll={true}
-          onDownloadAllWorkoutsPress={this.onDownloadAllWorkoutsPress}
+          // downloadAll={true}
+          // onDownloadAllWorkoutsPress={this.onDownloadAllWorkoutsPress}
         />
         <View style={styles.container}>
           <View>
@@ -188,7 +255,7 @@ class WorkoutScreen extends React.Component {
             />
           </View>
           <View style={styles.rightContainer}>
-            <TouchableOpacity style={{width: '50%'}} onPress={this.obBuyPress}>
+            <TouchableOpacity style={{width: '50%'}} onPress={this.onEbookPress}>
               <View style={styles.buttonContainer}>
                 <Text style={styles.buttonText}>Ebook</Text>
                 <Text style={[styles.buttonText, {marginLeft: 5}]}>$19</Text>

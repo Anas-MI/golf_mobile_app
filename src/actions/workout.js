@@ -21,6 +21,7 @@ export function getWorkouts() {
 }
 
 export function validateWorkout(data) {
+  console.log("inside validate workouts function")
   return dispatch => {
     return fetch(
       Constants.API_BASE_URL +
