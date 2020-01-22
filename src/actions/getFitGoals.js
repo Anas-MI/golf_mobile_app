@@ -3,8 +3,8 @@ import constants from '../config/constants';
 
 export function getFitGoals(accessToken, userId) {
   return dispatch =>
-    fetch(constants.API_BASE_URL + 'user/media?accessToken=' + accessToken, {
-      method: 'POST',
+    fetch(constants.API_BASE_URL + 'users/goals/' + accessToken, {
+      method: 'GET',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -13,7 +13,7 @@ export function getFitGoals(accessToken, userId) {
       .then(response => response.json())
       .then(responseData => {
         console.log('my fit goals response data', responseData);
-        if (responseData.success) {
+        if (responseData.status) {
           dispatch(getSuccess(responseData));
         } else {
           dispatch(getFailed(responseData));

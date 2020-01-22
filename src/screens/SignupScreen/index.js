@@ -182,22 +182,27 @@ class SignupScreen extends React.Component {
   //component will recieve props where we get response from redux and api
   componentWillReceiveProps(nextProps) {
     this.setState({isLoading: false});
-    if (nextProps.register.success) {
+    console.log({nextProps})
+    if (nextProps.register.registered) {
       AsyncStorage.setItem(
         constants.ACCESSTOKEN_NAME,
-        nextProps.register.response.access_token,
+        nextProps.register.token,
+      );
+      AsyncStorage.setItem(
+        constants.USER_ID,
+        nextProps.register.id,
       );
       AsyncStorage.setItem(
         constants.EMAIL_NOTIFICATIONS,
-        nextProps.register.response.is_email_notification + '',
+        nextProps.register.is_email_notification + '',
       );
       AsyncStorage.setItem(
         constants.PUSH_NOTIFICATIONS,
-        nextProps.register.response.is_push_notification + '',
+        nextProps.register.is_push_notification + '',
       );
       AsyncStorage.setItem(
         constants.USER_CREATED_AT,
-        nextProps.register.response.created_at,
+        nextProps.register.created_at,
       );
       const resetAction = StackActions.reset({
         index: 0,

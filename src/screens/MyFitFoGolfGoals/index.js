@@ -39,8 +39,15 @@ class MyFitForGolfGoals extends Component {
   displayContents = (key, index) => {
     const {myFitGoals} = this.props;
     const uri =
-      constants.API_BASE_URL.replace('/api', '') +
-      myFitGoals[key].replace('/', '');
+      constants.IMAGE_BASE_URL +
+      myFitGoals[key].substring(6);
+    let title;
+      if( uri.toLowerCase().endsWith('.jpeg')){
+        
+         title = myFitGoals[key].substring(22)
+      } else {
+        title = myFitGoals[key].substring(22)
+      }
     if (
       uri.toLowerCase().endsWith('.jpg') ||
       uri.toLowerCase().endsWith('.png') ||
@@ -51,7 +58,7 @@ class MyFitForGolfGoals extends Component {
         <_.ImageBox
           uri={uri}
           key={index}
-          title={key}
+          title={title}
           onPress={() => this.onViewFile(uri)}
         />
       );
@@ -82,7 +89,7 @@ class MyFitForGolfGoals extends Component {
   render() {
     const {myFitGoals} = this.props;
     const {playVideoWithUrl, viewFile} = this.state;
-
+console.log(this.props)
     return (
       <View style={styles.container}>
         <Header

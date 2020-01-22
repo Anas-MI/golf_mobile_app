@@ -6,6 +6,7 @@ import constants from '../../config/constants';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Settings from '../../config/settings';
 import Header from '../../components/Header';
+import Constants from "../../config/constants"
 import moment from 'moment';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import CustomButton from '../../components/CustomButton';
@@ -30,7 +31,7 @@ class TodaysGoalScreen extends React.Component{
     synergistic_id : 0,
     isLoading: false,
     activeSlide: 0,
-    entries: ["http://18.217.138.86/uploads/images/synergistic/5d8c2de2d560d359038368.JPG"],
+    entries: [],
     test: false,
     backIcon: false,
     textHeader: '',
@@ -86,7 +87,8 @@ class TodaysGoalScreen extends React.Component{
 
   _renderItem ({item, index}) {
     console.log("at carsoul",item,index);
-      return <Image style={{backgroundColor: 'white',width: "100%", height: 200, resizeMode: 'contain'}} source={{uri:item}} />
+    console.log(Constants.IMAGE_BASE_URL + item.substring(6))
+      return <Image style={{backgroundColor: 'white',width: "100%", height: 200, resizeMode: 'contain'}} source={{uri:Constants.IMAGE_BASE_URL + item.substring(6)}} />
   }
 
   onSubmitPressed = () => {
@@ -142,10 +144,10 @@ class TodaysGoalScreen extends React.Component{
               explanation: nextProps.contentIs.data.explanation,
               nutrition_tip: nextProps.contentIs.data.nutritionTip,
               thoughts: nextProps.contentIs.data.thoughts,
-              thought_by: nextProps.contentIs.data.thinkGolf,
+              thought_by: nextProps.contentIs.data.thoughtsBy,
               think_golf: nextProps.contentIs.data.thinkGolf,
               make_me_smile: nextProps.contentIs.data.makeMeSmile,
-              // entries: nextProps.contentIs.data.images,
+              entries: nextProps.contentIs.data.entries,
             })
 
             

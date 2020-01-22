@@ -171,6 +171,11 @@ onEbookPress = () => {
 
   //on video press
   onVideoPress = item => {
+    if(!item.isPaid){
+      this.props.navigation.navigate('WorkoutView', {
+        url: item.url,
+      });
+    } else {
     AsyncStorage.getItem(constants.USER_ID).then(value => {
       let data = {userId: value, videoId: item._id};
       this.props.validateWorkout(data).then(async res => {
@@ -224,7 +229,7 @@ onEbookPress = () => {
             });
         }
       });
-    });
+    });}
   };
 
   _keyExtractor = (item, index) => item.id;

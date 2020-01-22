@@ -18,6 +18,7 @@ export default {
   DIFF_PASS: 'Password & Confirm Password must be same',
   // API_BASE_URL: 'http://18.217.138.86/api/',
   API_BASE_URL: 'http://localhost:4000/api/v1/',
+  IMAGE_BASE_URL: 'http://localhost:4000/',
   ACCESSTOKEN_NAME: 'name of the token',
   USER_ID:"user id of the user",
   USER_CREATED_AT: 'user created at',

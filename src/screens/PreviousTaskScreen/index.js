@@ -31,7 +31,7 @@ class PreviousTaskScreen extends React.Component{
     synergistic_id : 0,
     isLoading: false,
     activeSlide: 0,
-    entries: ["http://18.217.138.86/uploads/images/synergistic/5d8c2de2d560d359038368.JPG"],
+    entries: [],
     test: false,
     backIcon: false,
     textHeader: '',
@@ -72,7 +72,7 @@ class PreviousTaskScreen extends React.Component{
   }
 
   _renderItem ({item, index}) {
-      return <Image style={{backgroundColor: 'white',width: "100%", height: 200, resizeMode: 'contain'}} source={{uri:item}} />
+      return <Image style={{backgroundColor: 'white',width: "100%", height: 200, resizeMode: 'contain'}} source={{uri:constants.IMAGE_BASE_URL +item.substring(6)}} />
   }
 
   onSubmitPressed = () => {
@@ -130,10 +130,10 @@ class PreviousTaskScreen extends React.Component{
               explanation: nextProps.contentIs.data.explanation,
               nutrition_tip: nextProps.contentIs.data.nutritionTip,
               thoughts: nextProps.contentIs.data.thoughts,
-              thought_by: nextProps.contentIs.data.thoughtGolf,
+              thought_by: nextProps.contentIs.data.thoughtsBy,
               think_golf: nextProps.contentIs.data.thinkGolf,
               make_me_smile: nextProps.contentIs.data.makeMeSmile,
-              // entries: nextProps.contentIs.data.images,
+              entries: nextProps.contentIs.data.entries,
             })
           } else {
             nextProps.contentIs.journal.map((journal) => (

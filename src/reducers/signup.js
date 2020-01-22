@@ -1,6 +1,7 @@
 export function signup(state = {}, action) {
   switch (action.type) {
     case 'SIGNUP_SUCCESS':
+      console.log({action})
       const userApiResponse = action.response;
       return Object.assign({}, userApiResponse);
 
