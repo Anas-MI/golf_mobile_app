@@ -7,8 +7,10 @@ import {
   TouchableOpacity,
   ScrollView,
   AsyncStorage,
+  Alert
 } from 'react-native';
 import styles from './style';
+import * as RNIap from 'react-native-iap';
 import Header from '../../components/Header';
 import colors from '../../config/colors';
 import {connect} from 'react-redux';
@@ -99,7 +101,7 @@ class AboutUsScreen extends React.Component {
         const obj = JSON.parse(dataAsString);
         if (obj.status) {
           this.props.navigation.navigate('Ebook', {
-            url: 'http://18.217.138.86/SYNERGISTIC-GOLF.pdf',
+            url: 'http://18.219.46.56/server/images/uploads/SYNERGISTIC-GOLF.pdf',
           });
         } else {
 

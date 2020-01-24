@@ -17,7 +17,7 @@ import { submit } from '../../actions/submitTest';
 import { addFavorite } from '../../actions/addFavorite';
 import _ from 'lodash';
 
-var dateIs,dayIs,accessToken;
+var dateIs,dayIs,accessToken, userid;
 var favArray = [];
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -52,6 +52,10 @@ class TodaysGoalScreen extends React.Component{
   componentWillMount = () => {
 
     AsyncStorage.getItem(constants.USER_CREATED_AT).then((value) => {
+      AsyncStorage.getItem(constants.USER_ID).then(id => {
+        
+        console.log({"iddddd": id, value})
+        userid = id})
     var today  = new Date(value)
     var dd = today.getDate();
     var mm = today.getMonth()+1; //January is 0!
@@ -198,6 +202,7 @@ class TodaysGoalScreen extends React.Component{
         date: yyyy+"-"+mm+"-"+dd,
         accessToken: accessToken,
         id: this.state.synergistic_id,
+        user: userid,
         name: this.state.name,
         goal: this.state.goal,
       }

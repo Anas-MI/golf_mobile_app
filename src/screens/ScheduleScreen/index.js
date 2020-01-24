@@ -33,7 +33,7 @@ class ScheduleScreen extends React.Component{
 
   componentWillMount = () => {
 
-    AsyncStorage.getItem(constants.ACCESSTOKEN_NAME).then((value) => {
+    AsyncStorage.getItem(constants.USER_ID).then((value) => {
       accessToken = value;
       this.props.getFavorites(value);
     });

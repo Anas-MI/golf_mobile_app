@@ -118,7 +118,7 @@ onEbookPress = () => {
       const obj = JSON.parse(dataAsString);
       if (obj.status) {
         this.props.navigation.navigate('Ebook', {
-          url: 'http://18.217.138.86/SYNERGISTIC-GOLF.pdf',
+          url: 'http://18.219.46.56/server/images/uploads/SYNERGISTIC-GOLF.pdf',
         });
       } else {
 

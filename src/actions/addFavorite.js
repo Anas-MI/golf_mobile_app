@@ -2,6 +2,7 @@ import Constants from '../config/constants';
 import Snackbar from 'react-native-snackbar';
 
 export function addFavorite(data) {
+  console.log({data})
   return dispatch =>
     fetch(Constants.API_BASE_URL + 'favorites/create', {
       method: 'POST',

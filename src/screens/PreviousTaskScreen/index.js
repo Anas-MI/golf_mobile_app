@@ -66,8 +66,11 @@ class PreviousTaskScreen extends React.Component{
         this.props.dateContent(data);
       });
 
-    dateIs =  moment(this.props.navigation.state.params.day.dateString).format("dddd, MMM Do YY");
+    dateIs =  moment(this.props.navigation.state.params.day.dateString).format("dddd, MMM Do YYYY");
+    console.log({dayIs})
     dayIs = moment(this.props.navigation.state.params.day.dateString).format('dddd');
+    console.log({dateIs})
+    
     this.setState({backIcon: true, textHeader: dateIs})
   }
 
