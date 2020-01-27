@@ -153,9 +153,6 @@ onEbookPress = () => {
           }
           })
 
-
-          
-
          // handle success of purchase product
          }).catch((error) => {
            Alert.alert(`${error}`)

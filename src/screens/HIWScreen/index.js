@@ -118,7 +118,7 @@ class HIWScreen extends React.Component {
              receipt: purchase.transactionReceipt
             });
             let test = purchase.transactionReceipt;
-            let postUrl = Constants.API_BASE_URL + "ebook/inapp"
+            let postUrl = constants.API_BASE_URL + "ebook/inapp"
 
             fetch(postUrl, {
               method: 'POST',
