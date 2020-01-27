@@ -421,7 +421,7 @@
 			baseConfigurationReference = 136BED3D267F2A7470ECEFC0 /* Pods-SynergisticGolf.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = H3F52C95QT;
 				HEADER_SEARCH_PATHS = (
@@ -471,7 +471,7 @@
 				);
 				INFOPLIST_FILE = SynergisticGolf/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 4.1;
+				MARKETING_VERSION = 4.4;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -488,7 +488,7 @@
 			baseConfigurationReference = 04D3084D44886310A59A0E11 /* Pods-SynergisticGolf.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = H3F52C95QT;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -537,7 +537,7 @@
 				);
 				INFOPLIST_FILE = SynergisticGolf/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 4.1;
+				MARKETING_VERSION = 4.4;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
