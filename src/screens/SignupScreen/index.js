@@ -22,7 +22,8 @@ import Snackbar from 'react-native-snackbar';
 import CustomButton from '../../components/CustomButton';
 import Spinner from 'react-native-spinkit';
 import firebase from 'react-native-firebase';
-
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+import KeyboardShift from './KeyboardShift';
 var fcmToken;
 
 class SignupScreen extends React.Component {
@@ -214,7 +215,12 @@ class SignupScreen extends React.Component {
 
   render() {
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <KeyboardShift>
+        {() => (
+
+       
+   
+      // < contentContainerStyle={styles.container}>
         <View
           style={{
             alignItems: 'center',
@@ -243,6 +249,13 @@ class SignupScreen extends React.Component {
               </Text>
             </Text>
           </TouchableOpacity>
+          <View
+          style={{
+            alignItems: 'center',
+            paddingHorizontal: settings.paddingOfAuthPages,
+          }}>
+  <Text>{`      `}</Text>
+          </View>
           <View style={styles.searchSection}>
             <Icon style={styles.searchIcon} name={'person'} size={18} />
             <TextInput
@@ -263,6 +276,7 @@ class SignupScreen extends React.Component {
               }}
             />
           </View>
+          
           <View style={styles.searchSection}>
             <Icon style={styles.searchIcon} name={'email'} size={18} />
             <TextInput
@@ -452,7 +466,10 @@ class SignupScreen extends React.Component {
             </View>
           )}
         </View>
-      </ScrollView>
+      // </View>
+   
+       )}
+   </KeyboardShift>
     );
   }
 }
