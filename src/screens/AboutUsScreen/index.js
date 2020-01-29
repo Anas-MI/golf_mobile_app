@@ -94,6 +94,67 @@ class AboutUsScreen extends React.Component {
 
   
 
+    // AsyncStorage.getItem(constants.USER_ID).then(value => {
+    //   let data = {accessToken: value};
+    //   this.props.validateEbook(data).then(async res => {
+    //     const dataAsString = await new Response(res._bodyInit).text();
+    //     const obj = JSON.parse(dataAsString);
+    //     if (obj.status) {
+    //       this.props.navigation.navigate('Ebook', {
+    //         url: 'http://18.219.46.56/server/images/uploads/SYNERGISTIC-GOLF.pdf',
+    //       });
+    //     } else {
+
+
+    //       RNIap.requestPurchase('org.reactjs.native.example.SynergisticGolf.ebook').then(purchase => {
+    //         console.log({purchase})
+    //         this.setState({
+    //          receipt: purchase.transactionReceipt
+    //         });
+    //         let test = purchase.transactionReceipt;
+    //         let postUrl = constants.API_BASE_URL + "ebook/inapp"
+
+    //         fetch(postUrl, {
+    //           method: 'POST',
+    //           headers: {
+    //             Accept: 'application/json',
+    //             'Content-Type': 'application/json',
+    //           },
+    //           body: JSON.stringify({
+    //             reciept: this.state.receipt, userId: value 
+    //           }),
+    //         }).then(async res => {
+    //           const dataAsString = await new Response(res._bodyInit).text();
+    //           const obj = JSON.parse(dataAsString);
+    //         if(obj.status){
+
+    //           Alert.alert(`Transaction Successful`)
+    //         } else {
+    //           Alert.alert(`${obj.message}`)
+    //           console.log(obj);
+
+    //         }
+    //         })
+
+
+            
+
+    //        // handle success of purchase product
+    //        }).catch((error) => {
+    //          Alert.alert(`${error}`)
+    //         console.log(error.message);
+    //        })
+
+       
+
+
+    //       // this.props.navigation.navigate('Payment', {
+    //       //   type: 'ebook',
+    //       //   amount: obj.response.amount,
+    //       // });
+    //     }
+    //   });
+    // });
     AsyncStorage.getItem(constants.USER_ID).then(value => {
       let data = {accessToken: value};
       this.props.validateEbook(data).then(async res => {
@@ -105,7 +166,7 @@ class AboutUsScreen extends React.Component {
           });
         } else {
 
-
+          if(Platform.OS === 'ios'){
           RNIap.requestPurchase('org.reactjs.native.example.SynergisticGolf.ebook').then(purchase => {
             console.log({purchase})
             this.setState({
@@ -144,15 +205,23 @@ class AboutUsScreen extends React.Component {
              Alert.alert(`${error}`)
             console.log(error.message);
            })
-
+          } else if(Platform.OS === 'android'){
        
+           AsyncStorage.getItem(constants.USER_ID).then(value => {
 
-
-          // this.props.navigation.navigate('Payment', {
-          //   type: 'ebook',
-          //   amount: obj.response.amount,
-          // });
+             this.props.navigation.navigate('Payment', {
+               type: 'ebook',
+               amount: "19",
+              user:value
+             });
+           })
+         }
         }
+
+        
+        
+
+        
       });
     });
   };

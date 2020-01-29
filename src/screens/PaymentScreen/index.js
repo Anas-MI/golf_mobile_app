@@ -23,9 +23,13 @@ import constants from '../../config/constants';
 import Settings from '../../config/settings';
 import Header from '../../components/Header';
 import CustomButton from '../../components/CustomButton';
+import {Platform} from 'react-native';
+
 import {
   addCardSubscription,
   addPaypalSubscription,
+  addPaypalSubscriptionEbook,
+  addPaypalSubscriptionWorkout
 } from '../../actions/transaction';
 import {validatePromocode} from '../../actions/workout';
 import styles from './style';
@@ -84,8 +88,59 @@ class PaymentScreen extends React.Component {
     const id = navigation.getParam('id');
     const amount = navigation.getParam('amount');
     const shippingId = navigation.getParam('shippingId');
-    const data = {id: id, amount: amount, shippingId: shippingId};
+    const type = navigation.getParam('type');
+
     this.setState({paypalClick: true});
+    if(type === "ebook") {
+      AsyncStorage.getItem(constants.USER_ID).then(value => {
+        const data = {id: value, amount: amount};
+      // data.accessToken = value;
+      this.props.addPaypalSubscriptionEbook(data).then(async res => {
+        this.setState({paypalClick: false});
+        const dataAsString = await new Response(res._bodyInit).text();
+        const obj = JSON.parse(dataAsString);
+        console.log({obj})
+        if (obj.success) {
+          this.props.navigation.navigate('Paypal', {
+            url: obj.url,
+          });
+        } else {
+          Snackbar.show({
+            title: obj.error.description,
+            duration: Snackbar.LENGTH_SHORT,
+          });
+        }
+      });
+    });
+      
+    } else if(type === "workout"){
+      console.log("inside workout")
+      AsyncStorage.getItem(constants.USER_ID).then(value => {
+        const videoId = navigation.getParam('videoId');
+
+        const data = {id: value, amount: amount, videoId };
+       
+                
+      // data.accessToken = value;
+      this.props.addPaypalSubscriptionWorkout(data).then(async res => {
+        this.setState({paypalClick: false});
+        const dataAsString = await new Response(res._bodyInit).text();
+        const obj = JSON.parse(dataAsString);
+        console.log({obj})
+        if (obj.success) {
+          this.props.navigation.navigate('Paypal', {
+            url: obj.url,
+          });
+        } else {
+          Snackbar.show({
+            title: obj.error.description,
+            duration: Snackbar.LENGTH_SHORT,
+          });
+        }
+      });
+    });
+    } else if(type !== "ebook"){
+      const data = {id: id, amount: amount, shippingId: shippingId};
     AsyncStorage.getItem(constants.ACCESSTOKEN_NAME).then(value => {
       data.accessToken = value;
       this.props.addPaypalSubscription(data).then(async res => {
@@ -104,7 +159,7 @@ class PaymentScreen extends React.Component {
           });
         }
       });
-    });
+    });} 
   };
   
   //on Vip press
@@ -157,6 +212,8 @@ class PaymentScreen extends React.Component {
     const amount = navigation.getParam('amount');
     const shippingId = navigation.getParam('shippingId');
     const userId = navigation.getParam('user');
+    const type = navigation.getParam('type');
+    const videoId = navigation.getParam('videoId');
 
     const {name, cardNumber, cvv, month, year} = this.state;
     const data = {
@@ -169,8 +226,13 @@ class PaymentScreen extends React.Component {
       id: id,
       amount: amount,
       shippingId: shippingId,
-      userId
+      userId,
+      type,
+      videoId
     };
+    if(type === "ebook"){
+      data.ebook = true
+    }
     if (cardNumber.trim().length === 0) {
       Snackbar.show({
         title: constants.EMPTY_CARD_NUMBER,
@@ -234,9 +296,20 @@ class PaymentScreen extends React.Component {
                 title: obj.message,
                 duration: Snackbar.LENGTH_SHORT,
               });
-              this.props.navigation.navigate('WorkoutView', {
-                url: url,
-              });
+              if(type === "ebook"){
+                this.props.navigation.navigate('Ebook', {
+                  url: url,
+                });
+              } else if(type === "workout"){
+                this.props.navigation.navigate('WorkoutView', {
+                  url: url,
+                });
+              } else {
+                this.props.navigation.navigate('Workout', {
+                  url: url,
+                });
+              }
+             
             } else {
               Snackbar.show({
                 title: obj.message,
@@ -493,5 +566,5 @@ class PaymentScreen extends React.Component {
 
 export default connect(
   null,
-  {addCardSubscription, addPaypalSubscription, validatePromocode},
+  {addCardSubscription, addPaypalSubscription, addPaypalSubscriptionEbook, addPaypalSubscriptionWorkout,validatePromocode},
 )(PaymentScreen);

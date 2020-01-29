@@ -1,7 +1,7 @@
 import Constants from '../config/constants';
 import Snackbar from 'react-native-snackbar';
 import {Platform} from 'react-native';
-
+console.log(Constants.API_BASE_URL)
 export function loginUser(user) {
   
   

@@ -40,7 +40,9 @@ class PaypalScreen extends React.Component {
 
   actionPress = () => {
     this.props.getWorkouts();
-    this.props.navigation.navigate('Workout');
+    this.props.navigation.navigate('More');
+
+    // this.props.navigation.navigate('Workout');
   };
 
   render() {

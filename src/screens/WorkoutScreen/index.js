@@ -18,6 +18,8 @@ import constants from '../../config/constants';
 import Header from '../../components/Header';
 import ListItem from '../../components/ListItem';
 import {connect} from 'react-redux';
+import {Platform} from 'react-native';
+
 import {
   getWorkouts,
   validateWorkout,
@@ -110,6 +112,59 @@ onEbookPress = () => {
 
  
  
+//Before android version
+  // AsyncStorage.getItem(constants.USER_ID).then(value => {
+  //   let data = {accessToken: value};
+  //   this.props.validateEbook(data).then(async res => {
+  //     const dataAsString = await new Response(res._bodyInit).text();
+  //     const obj = JSON.parse(dataAsString);
+  //     if (obj.status) {
+  //       this.props.navigation.navigate('Ebook', {
+  //         url: 'http://18.219.46.56/server/images/uploads/SYNERGISTIC-GOLF.pdf',
+  //       });
+  //     } else {
+
+
+  //       RNIap.requestPurchase('org.reactjs.native.example.SynergisticGolf.ebook').then(purchase => {
+  //         console.log({purchase})
+  //         this.setState({
+  //          receipt: purchase.transactionReceipt
+  //         });
+  //         let test = purchase.transactionReceipt;
+  //         let postUrl = Constants.API_BASE_URL + "ebook/inapp"
+
+  //         fetch(postUrl, {
+  //           method: 'POST',
+  //           headers: {
+  //             Accept: 'application/json',
+  //             'Content-Type': 'application/json',
+  //           },
+  //           body: JSON.stringify({
+  //             reciept: this.state.receipt, userId: value 
+  //           }),
+  //         }).then(async res => {
+  //           const dataAsString = await new Response(res._bodyInit).text();
+  //           const obj = JSON.parse(dataAsString);
+  //         if(obj.status){
+
+  //           Alert.alert(`Transaction Successful`)
+  //         } else {
+  //           Alert.alert(`${obj.message}`)
+  //           console.log(obj);
+
+  //         }
+  //         })
+
+  //        // handle success of purchase product
+  //        }).catch((error) => {
+  //          Alert.alert(`${error}`)
+  //         console.log(error.message);
+  //        })
+
+      
+  //     }
+  //   });
+  // });
 
   AsyncStorage.getItem(constants.USER_ID).then(value => {
     let data = {accessToken: value};
@@ -122,14 +177,14 @@ onEbookPress = () => {
         });
       } else {
 
-
+        if(Platform.OS === 'ios'){
         RNIap.requestPurchase('org.reactjs.native.example.SynergisticGolf.ebook').then(purchase => {
           console.log({purchase})
           this.setState({
            receipt: purchase.transactionReceipt
           });
           let test = purchase.transactionReceipt;
-          let postUrl = Constants.API_BASE_URL + "ebook/inapp"
+          let postUrl = constants.API_BASE_URL + "ebook/inapp"
 
           fetch(postUrl, {
             method: 'POST',
@@ -153,16 +208,34 @@ onEbookPress = () => {
           }
           })
 
+
+          
+
          // handle success of purchase product
          }).catch((error) => {
            Alert.alert(`${error}`)
           console.log(error.message);
          })
+        } else if(Platform.OS === 'android'){
+     
+         AsyncStorage.getItem(constants.USER_ID).then(value => {
+
+           this.props.navigation.navigate('Payment', {
+             type: 'ebook',
+             amount: "19",
+            user:value
+           });
+         })
+       }}
+
 
       
-      }
+      
+
+      
     });
   });
+
 };
 
 
@@ -189,7 +262,7 @@ onEbookPress = () => {
           //   id: item.id,
           //   amount: obj.response.amount,
           // });
-
+          if(Platform.OS === 'ios'){
           RNIap.requestPurchase(
             'org.reactjs.native.example.SynergisticGolf.workout',
           )
@@ -223,8 +296,18 @@ onEbookPress = () => {
             .catch(error => {
               Alert.alert(`${error}`);
               console.log(error.message);
-            });
-        }
+            });} else if(Platform.OS === 'android'){ {
+              AsyncStorage.getItem(constants.USER_ID).then(value => {
+
+                this.props.navigation.navigate('Payment', {
+                  type: 'workout',
+                  amount: "3.99",
+                 user:value,
+                 videoId: item._id
+                });
+              })
+            }
+        }}
       });
     });}
   };

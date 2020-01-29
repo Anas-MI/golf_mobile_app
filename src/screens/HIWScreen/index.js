@@ -1,6 +1,8 @@
 import React from 'react';
 import * as RNIap from 'react-native-iap';
 import Constant from "../../config/constants"
+import {Platform} from 'react-native';
+
 import {
   ScrollView,
   View,
@@ -111,7 +113,7 @@ class HIWScreen extends React.Component {
           });
         } else {
 
-
+          if(Platform.OS === 'ios'){
           RNIap.requestPurchase('org.reactjs.native.example.SynergisticGolf.ebook').then(purchase => {
             console.log({purchase})
             this.setState({
@@ -150,15 +152,23 @@ class HIWScreen extends React.Component {
              Alert.alert(`${error}`)
             console.log(error.message);
            })
-
+          } else if(Platform.OS === 'android'){
        
+           AsyncStorage.getItem(constants.USER_ID).then(value => {
+
+             this.props.navigation.navigate('Payment', {
+               type: 'ebook',
+               amount: "19",
+              user:value
+             });
+           })
+         }}
 
 
-          // this.props.navigation.navigate('Payment', {
-          //   type: 'ebook',
-          //   amount: obj.response.amount,
-          // });
-        }
+        
+        
+
+        
       });
     });
   };

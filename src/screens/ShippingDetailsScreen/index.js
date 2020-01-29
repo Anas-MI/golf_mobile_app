@@ -150,7 +150,7 @@ class ShippingDetailsScreen extends React.Component {
               amount: "28",
               shippingId: obj.data._id,
               userId:obj.data.user,
-              type: 'ebook',
+              type: 'book',
             });
           } else {
             Snackbar.show({
