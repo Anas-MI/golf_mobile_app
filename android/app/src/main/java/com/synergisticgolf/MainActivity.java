@@ -1,4 +1,4 @@
-package com.synergisticgolf;
+package com.synergistic;
 
 import android.content.Intent;
 import com.facebook.react.ReactActivity;

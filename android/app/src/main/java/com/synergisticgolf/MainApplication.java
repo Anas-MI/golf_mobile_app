@@ -1,4 +1,4 @@
-package com.synergisticgolf;
+package com.synergistic;
 
 import android.app.Application;
 import android.content.Context;
